@@ -733,6 +733,12 @@ public class WindowOperator
             spiller = Optional.empty();
         }
 
+        void clear()
+        {
+            inMemoryPagesIndexWithHashStrategies.pagesIndex.clear();
+            mergedPagesIndexWithHashStrategies.pagesIndex.clear();
+        }
+
         TransformationState<WorkProcessor<PagesIndexWithHashStrategies>> fullGroupBuffered()
         {
             // Convert revocable memory to user memory as inMemoryPagesIndexWithHashStrategies holds on to memory so we no longer can revoke
@@ -938,5 +944,6 @@ public class WindowOperator
     {
         driverWindowInfo.set(Optional.of(windowInfo.build()));
         spillablePagesToPagesIndexes.ifPresent(SpillablePagesToPagesIndexes::closeSpiller);
+        spillablePagesToPagesIndexes.ifPresent(SpillablePagesToPagesIndexes::clear);
     }
 }
